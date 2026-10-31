@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f5f1ea" />
+  <meta name="description" content="15 道生活方式问题，测测与你气质最合拍的本命自然物。" />
+  <title>测测你的本命自然物</title>
+  <style>
+    :root {
+      --paper: #f6f2eb;
+      --paper-2: #fcfaf6;
+      --ink: #27322f;
+      --muted: #7e8780;
+      --line: #e8e2d9;
+      --sage: #7e9b8e;
+      --sage-deep: #56776a;
+      --coral: #d88770;
+      --coral-soft: #f4ddd4;
+      --blue: #91a9b6;
+      --lavender: #b7b4c8;
+      --shadow: 0 20px 60px rgba(81, 82, 68, .10);
+    }
+    * { box-sizing: border-box; }
+    html { background: var(--paper); scroll-behavior: smooth; }
+    body { margin: 0; min-width: 320px; color: var(--ink); font-family: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif; background: var(--paper); }
+    button { font: inherit; }
+    .app-shell { min-height: 100svh; padding: 18px 16px 30px; overflow: hidden; position: relative; background-color: #dce8dc; background-image: linear-gradient(180deg, rgba(255,250,242,.72) 0%, rgba(255,250,242,.43) 42%, rgba(244,239,227,.72) 100%), url("assets/nature-still-life-hero.png"); background-size: cover; background-position: center 42%; background-attachment: scroll; }
+    .app-shell::before { content: ""; position: fixed; width: 220px; height: 220px; border-radius: 50%; background: rgba(145,169,182,.10); left: -130px; top: 80px; filter: blur(2px); pointer-events: none; }
+    .app-shell::after { content: ""; position: fixed; width: 180px; height: 180px; border-radius: 50%; background: rgba(216,135,112,.08); right: -100px; bottom: 10%; pointer-events: none; }
+    .topbar { max-width: 980px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 12px; letter-spacing: .08em; position: relative; z-index: 2; }
+    .brand { display: flex; gap: 9px; align-items: center; color: var(--ink); font-weight: 700; letter-spacing: .14em; }
+    .brand-dot { width: 10px; height: 10px; display: inline-block; border-radius: 50% 50% 50% 0; background: var(--coral); transform: rotate(-45deg); }
+    .screen { max-width: 720px; margin: 0 auto; position: relative; z-index: 1; }
+    .screen.hidden { display: none; }
+    .hero { min-height: calc(100svh - 86px); display: flex; flex-direction: column; justify-content: center; padding: 28px 0 18px; }
+    .eyebrow { color: var(--sage-deep); font-size: 12px; font-weight: 800; letter-spacing: .16em; margin-bottom: 16px; }
+    h1, h2, p { margin-top: 0; }
+    h1 { font-size: clamp(38px, 10vw, 72px); line-height: 1.08; letter-spacing: -.08em; margin-bottom: 20px; max-width: 620px; text-shadow: 0 2px 18px rgba(255,250,240,.48); }
+    .hero-copy { color: #53635a; line-height: 1.9; font-size: 15px; max-width: 510px; margin-bottom: 30px; padding: 12px 14px; background: rgba(255,251,245,.58); border: 1px solid rgba(255,255,255,.48); border-radius: 16px; backdrop-filter: blur(5px); box-shadow: 0 10px 30px rgba(69,76,63,.06); }
+    .hero-art { display: none; }
+    .hero-art::before { content: ""; position: absolute; inset: 13px; border: 1px solid rgba(86,119,106,.18); border-radius: 22px; pointer-events: none; z-index: 2; }
+    .hero-illustration { display: none; }
+    .art-note { position: absolute; left: 22px; top: 20px; z-index: 3; color: #58776a; background: rgba(255,250,239,.72); padding: 6px 9px; border-radius: 999px; font-size: 10px; letter-spacing: .12em; font-weight: 800; backdrop-filter: blur(6px); }
+    .art-stamp { position: absolute; right: 22px; bottom: 19px; z-index: 3; transform: rotate(5deg); color: #fffdf7; background: rgba(105,81,61,.82); padding: 8px 12px; border-radius: 16px 16px 4px 16px; font-size: 12px; font-weight: 700; box-shadow: 0 6px 14px rgba(89,65,46,.18); }
+    .pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 26px; }
+    .pill { display: inline-flex; align-items: center; padding: 7px 11px; border: 1px solid rgba(126,155,142,.35); border-radius: 999px; background: rgba(255,255,255,.4); color: var(--sage-deep); font-size: 12px; }
+    .primary-btn, .ghost-btn { border: 0; border-radius: 999px; padding: 14px 22px; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease, background .2s ease; }
+    .primary-btn { background: var(--ink); color: #fff; box-shadow: 0 10px 24px rgba(39,50,47,.16); }
+    .primary-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 28px rgba(39,50,47,.20); }
+    .primary-btn:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }
+    .ghost-btn { color: var(--sage-deep); background: #fffdf9; border: 1px solid var(--line); }
+    .quiz-wrap { padding-top: 36px; }
+    .progress-row { display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 12px; margin-bottom: 12px; }
+    .progress-track { height: 5px; background: #e7e2da; border-radius: 99px; overflow: hidden; margin-bottom: 38px; }
+    .progress-fill { height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--sage), var(--coral)); transition: width .4s ease; }
+    .question-kicker { color: var(--coral); font-size: 13px; font-weight: 800; letter-spacing: .12em; margin-bottom: 14px; }
+    .question-title { font-size: clamp(26px, 7vw, 42px); letter-spacing: -.06em; line-height: 1.25; margin-bottom: 12px; }
+    .question-note { color: var(--muted); font-size: 13px; margin-bottom: 26px; }
+    .options { display: grid; gap: 12px; }
+    .option { border: 1px solid var(--line); background: rgba(255,253,249,.78); border-radius: 18px; padding: 17px 18px; display: flex; gap: 13px; align-items: center; text-align: left; cursor: pointer; color: var(--ink); transition: .2s ease; min-height: 64px; }
+    .option:hover { border-color: var(--sage); transform: translateX(2px); }
+    .option.selected { border-color: var(--sage-deep); background: #e7efe9; box-shadow: 0 6px 16px rgba(86,119,106,.10); }
+    .option-mark { width: 27px; height: 27px; flex: 0 0 27px; border: 1px solid #c9d2cc; border-radius: 50%; display: grid; place-items: center; color: transparent; font-size: 13px; font-weight: 800; }
+    .selected .option-mark { color: #fff; background: var(--sage-deep); border-color: var(--sage-deep); }
+    .option-text { font-size: 15px; line-height: 1.5; }
+    .quiz-footer { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 30px; padding-bottom: 30px; }
+    .back-btn { border: 0; background: transparent; color: var(--muted); cursor: pointer; padding: 12px 0; }
+    .result-wrap { padding: 36px 0; }
+    .result-card { background: #fffdf9; border: 1px solid #ece5db; border-radius: 28px; padding: 22px; box-shadow: var(--shadow); overflow: hidden; position: relative; }
+    .result-card::before { content: "NATURE MATCH"; position: absolute; right: 18px; top: 18px; font-size: 10px; letter-spacing: .16em; color: #b7b8ad; }
+    .result-top { display: flex; gap: 18px; align-items: flex-start; padding: 38px 0 22px; }
+    .city-stamp { width: 76px; height: 76px; border-radius: 24px; display: grid; place-items: center; font-size: 35px; background: var(--coral-soft); flex: 0 0 auto; }
+    .result-label { color: var(--coral); font-size: 12px; font-weight: 800; letter-spacing: .1em; margin-bottom: 7px; }
+    .result-city { font-size: clamp(33px, 10vw, 56px); line-height: 1; letter-spacing: -.08em; margin-bottom: 8px; }
+    .result-country { color: var(--muted); font-size: 13px; }
+    .score-chip { display: inline-flex; color: var(--sage-deep); background: #e5efe8; border-radius: 99px; padding: 7px 11px; font-size: 12px; margin-top: 14px; }
+    .nature-banner { display: flex; align-items: center; gap: 13px; padding: 14px; margin: 2px 0 20px; background: #f0ebe3; border-radius: 18px; border: 1px dashed #d9d1c5; }
+    .nature-emoji { width: 42px; height: 42px; flex: 0 0 42px; border-radius: 14px; display: grid; place-items: center; background: #e4ece4; font-size: 24px; }
+    .nature-label { color: var(--coral); font-size: 11px; font-weight: 800; letter-spacing: .08em; margin-bottom: 3px; }
+    .nature-name { font-size: 21px; font-weight: 800; letter-spacing: -.05em; display: inline-block; margin-right: 5px; }
+    .nature-type { color: #7e8278; font-size: 12px; line-height: 1.55; }
+    .quote { font-size: 18px; line-height: 1.65; letter-spacing: -.03em; margin: 0 0 20px; color: #39443f; }
+    .result-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; margin: 16px 0 22px; }
+    .mini-card { background: #f5f1eb; border-radius: 16px; padding: 14px 12px; min-height: 108px; }
+    .mini-label { color: var(--muted); font-size: 11px; margin-bottom: 8px; }
+    .mini-value { font-size: 13px; font-weight: 700; line-height: 1.55; }
+    .result-copy { color: #68736c; line-height: 1.85; font-size: 14px; margin-bottom: 0; }
+    .result-note { color: #9a9c91; font-size: 11px; line-height: 1.6; margin: 18px 0 0; }
+    .result-actions { display: flex; gap: 10px; flex-wrap: wrap; margin: 18px 0 10px; }
+    .result-actions .primary-btn, .result-actions .ghost-btn { flex: 1; min-width: 140px; }
+    .toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 16px); padding: 11px 16px; background: rgba(39,50,47,.94); color: #fff; border-radius: 999px; font-size: 12px; opacity: 0; pointer-events: none; transition: .25s ease; z-index: 20; white-space: nowrap; }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    .fade-in { animation: fadeIn .38s ease both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    @media (min-width: 700px) {
+      .app-shell { padding-left: 32px; padding-right: 32px; }
+      .hero-art { height: 260px; }
+      .hero { padding-top: 44px; }
+      .result-card { padding: 32px; }
+    }
+    @media (max-width: 420px) {
+      .result-grid { grid-template-columns: 1fr; }
+      .mini-card { min-height: auto; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+      .mini-label { margin-bottom: 0; }
+      .result-top { gap: 13px; }
+      .city-stamp { width: 64px; height: 64px; font-size: 29px; border-radius: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-dot"></span><span>生活方式研究所</span></div>
+      <span id="top-meta">15 QUESTIONS · 50 NATURES</span>
+    </header>
+
+    <section id="intro-screen" class="screen hero fade-in">
+      <div class="eyebrow">NATURE MATCH / 01</div>
+      <h1>测测你的<br><span style="color:var(--sage-deep)">本命自然物</span></h1>
+      <p class="hero-copy">不测星座，不讲玄学。用 15 道关于天气、节奏、吃饭和生活感受的小问题，找到一件和你日常气质很像的自然物。</p>
+      <div class="hero-art" aria-label="自然与生活感手绘插画：山丘、树木、房子、咖啡和植物">
+        <span class="art-note">A LITTLE MORE NATURE</span>
+        <svg class="hero-illustration" viewBox="0 0 720 260" role="img" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+          <rect width="720" height="260" fill="#e7eee8"/>
+          <circle cx="548" cy="59" r="31" fill="#e5b28e"/>
+          <circle cx="548" cy="59" r="46" fill="none" stroke="#e5b28e" stroke-opacity=".25" stroke-width="10"/>
+          <path d="M62 83c14-23 44-26 61-6 17-18 52-10 55 17 18 1 27 12 27 24H55c-6-16-1-28 7-35Z" fill="#fff8ef" fill-opacity=".8"/>
+          <path d="M-22 192c88-62 151-67 218-24 62-53 150-45 213-1 67-42 149-42 333 17v76H-22Z" fill="#b7cbb9"/>
+          <path d="M-15 225c93-51 180-32 246-2 82-47 168-42 239-2 77-48 158-34 271 18v45H-15Z" fill="#78988a"/>
+          <g fill="#668879">
+            <path d="M93 182h8l3-46-25 25 20-6-25-17 31 6 1-31 9 33 25-16-17 25 24 5-31 8 8 14H93Z"/>
+            <path d="M642 190h8l2-57-27 29 22-8-28-18 34 7 1-34 9 36 25-17-17 25 24 5-30 9 8 23h-31Z"/>
+          </g>
+          <g transform="translate(354 113)">
+            <path d="M-13 28 53-6l68 34v61H-13Z" fill="#f8f3e9" stroke="#58786b" stroke-width="2"/>
+            <path d="m-21 30 73-44 76 38-8 9L52-2l-66 39Z" fill="#d88770"/>
+            <rect x="12" y="49" width="23" height="34" rx="2" fill="#9ab3a4"/>
+            <rect x="59" y="37" width="25" height="23" rx="2" fill="#d1ded5" stroke="#58786b" stroke-width="2"/>
+            <path d="M72 37v23M59 48h25" stroke="#58786b" stroke-width="2"/>
+            <circle cx="72" cy="48" r="5" fill="#e5b28e" opacity=".8"/>
+          </g>
+          <g transform="translate(162 178)">
+            <path d="M0 31h112" stroke="#526e61" stroke-width="3" stroke-linecap="round"/>
+            <path d="M22 31v35m70-35v35" stroke="#526e61" stroke-width="3" stroke-linecap="round"/>
+            <path d="M26 30c6-18 11-24 21-25 8-1 16 8 13 18-5 16-19 18-34 7Z" fill="#d98770" stroke="#526e61" stroke-width="2"/>
+            <path d="M45 12c-2-12 4-21 14-27M45 9C36 0 29-1 22 5M48 12c7-7 14-8 21-2" fill="none" stroke="#668879" stroke-width="3" stroke-linecap="round"/>
+            <path d="M39 13c4-10 13-13 21-11" fill="none" stroke="#7f9f8f" stroke-width="3" stroke-linecap="round"/>
+            <path d="M65 24h17c0 8-3 12-8 12s-9-4-9-12Z" fill="#f5d9c9" stroke="#526e61" stroke-width="2"/>
+            <path d="M82 27c8-3 9 9 1 10" fill="none" stroke="#526e61" stroke-width="2"/>
+          </g>
+          <g transform="translate(545 180)" stroke="#526e61" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M0 50h80"/><path d="M10 50v27m60-27v27"/><path d="M21 50V23h38v27" fill="#f8f3e9"/>
+            <path d="M25 22V6m0 7c-13-8-19-1-17 7 8 2 14-1 17-7Zm0 3c13-8 19-1 17 7-8 2-14-1-17-7Z" fill="#7e9b8e"/>
+            <path d="M30 28c4-6 9-7 14-4" fill="none"/>
+          </g>
+          <path d="M0 238c105-13 195-11 282 1 151 21 281-25 438-1" fill="none" stroke="#d6e2d9" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <span class="art-stamp">先把日子过舒服</span>
+      </div>
+      <div class="pills"><span class="pill">生活方式向</span><span class="pill">一题一页</span><span class="pill">50 种自然物</span></div>
+      <button id="start-btn" class="primary-btn" type="button">开始测试 <span aria-hidden="true">→</span></button>
+    </section>
+
+    <section id="quiz-screen" class="screen quiz-wrap hidden" aria-live="polite">
+      <div class="progress-row"><span id="progress-label">第 1 / 15 题</span><span id="progress-percent">7%</span></div>
+      <div class="progress-track"><div id="progress-fill" class="progress-fill" style="width:7%"></div></div>
+      <div id="question-view" class="fade-in"></div>
+    </section>
+
+    <section id="result-screen" class="screen result-wrap hidden" aria-live="polite">
+      <div class="eyebrow">YOUR NATURE MATCH / 50</div>
+      <div id="result-view" class="fade-in"></div>
+    </section>
+  </main>
+  <div id="toast" class="toast" role="status"></div>
+
+  <script>
+    const questions = [
+      { title: "如果可以自己调天气，你会选？", note: "一年里，什么样的空气让你最放松？", options: [
+        ["阳光多一点，冬天也别太长", [1, .35, .1, .05, .25, .1, .25, .2]], ["四季分明，春秋要有存在感", [.45, .5, .2, .2, .2, .15, .2, .45]], ["凉快一点，偶尔下雨也没关系", [.15, .25, .45, .3, .25, .1, .25, .3]], ["干爽清冽，冷一点反而舒服", [.05, .25, .15, .35, .15, .1, .2, .25]]
+      ]},
+      { title: "你理想中的通勤节奏是？", note: "把时间留给自己，也是宜居感的一部分。", options: [
+        ["地铁/步行半小时内，效率优先", [.2, 1, .05, .1, .05, .7, .1, .35]], ["慢一点没关系，沿路能看到风景", [.45, .2, .45, .45, .4, .2, .4, .25]], ["最好弹性上班，别被早高峰追着跑", [.4, .15, .55, .3, .25, .35, .35, .25]], ["我能接受开车或骑车，距离不是问题", [.4, .35, .2, .25, .35, .25, .35, .2]]
+      ]},
+      { title: "下班后的你，更想去哪儿？", note: "好的日子，不止写字楼那一块。", options: [
+        ["找一家小店坐下，喝咖啡看人来人往", [.25, .45, .15, .15, .1, .4, .25, .65]], ["去公园、江边或山里走走", [.45, .15, .65, .8, .7, .15, .4, .3]], ["逛展、看电影、听现场，文化活动不能少", [.2, .5, .2, .25, .15, .45, .15, .9]], ["回家安静待着，外卖和一部剧就很好", [.25, .1, .9, .1, .1, .25, .45, .25]]
+      ]},
+      { title: "对你来说，好吃最重要的是？", note: "口味是很具体的生活投票。", options: [
+        ["辣和香，夜宵摊是城市的灵魂", [.45, .45, .1, .1, .15, .35, .35, .75]], ["清淡鲜甜，时令蔬菜和一碗好汤", [.3, .2, .3, .25, .3, .25, .35, .55]], ["海鲜、米粉、烧烤，地方味要够鲜明", [.45, .3, .2, .2, .55, .25, .3, .7]], ["面包、奶酪、咖啡，简单但有品质", [.25, .35, .25, .2, .1, .4, .1, .65]]
+      ]},
+      { title: "如果生活的地方有点潮湿，你会？", note: "不评判，按你真实的体感来选。", options: [
+        ["不太行，衣服晒不干会让我崩溃", [.25, .2, .2, .65, .1, .15, .25, .2]], ["可以接受，开空调除湿就好", [.5, .3, .25, .3, .25, .25, .25, .35]], ["喜欢，雨天和绿植让我觉得有生命力", [.55, .15, .55, .1, .45, .15, .35, .3]], ["偶尔可以，长期还是想要干爽", [.3, .25, .25, .45, .2, .2, .3, .25]]
+      ]},
+      { title: "你和热闹的关系是？", note: "你需要的是能量，还是留白？", options: [
+        ["越热闹越有劲，夜生活别太早结束", [.4, .6, .05, .05, .1, .55, .15, .7]], ["白天热闹、晚上安静，平衡最重要", [.35, .4, .3, .25, .2, .4, .2, .5]], ["安静是刚需，最好邻居都轻一点", [.25, .1, 1, .3, .25, .15, .45, .2]], ["人少一点没事，但公共空间要有温度", [.3, .2, .65, .45, .35, .2, .4, .35]]
+      ]},
+      { title: "关于收入和生活成本，你更在意？", note: "不设标准答案，只看你现在的阶段。", options: [
+        ["机会多一点，忙一点也能接受", [.25, .65, .1, .1, .1, 1, .05, .6]], ["房租别太夸张，舒服和性价比更重要", [.35, .25, .35, .3, .2, .25, 1, .35]], ["收入稳定，公共服务靠谱就很安心", [.25, .2, .25, .3, .15, .5, .45, .55]], ["愿意为审美、自然和松弛感多花一点", [.45, .2, .3, .55, .55, .25, .1, .6]]
+      ]},
+      { title: "你最喜欢哪个季节？", note: "季节感，会默默决定你的幸福感。", options: [
+        ["春天：风一吹，整个人就想出门", [.5, .2, .25, .35, .25, .15, .25, .35]], ["夏天：晒太阳、游泳、吃冰的快乐", [1, .4, .2, .15, .6, .2, .3, .35]], ["秋天：空气清爽，走路都很有质感", [.2, .25, .3, .4, .2, .2, .3, .55]], ["冬天：窝在室内，生活有边界感", [.05, .2, .65, .25, .1, .25, .35, .45]]
+      ]},
+      { title: "你希望身边的人是什么样？", note: "包容度，常常比热闹更重要。", options: [
+        ["大家直来直往，效率高，不用猜", [.2, .6, .15, .05, .1, .5, .2, .35]], ["不同背景的人都能自在生活", [.35, .35, .2, .2, .15, .45, .2, 1]], ["邻里熟一点，关键时刻能互相照应", [.35, .15, .35, .3, .2, .2, .35, .4]], ["保持距离感，互不打扰就是尊重", [.25, .2, .75, .25, .1, .2, .4, .45]]
+      ]},
+      { title: "选房子时，你最想保住什么？", note: "住在哪里，决定了你怎么过每一天。", options: [
+        ["市中心小一点也没关系，出门就有一切", [.2, .6, .15, .1, .05, .65, .15, .55]], ["有阳台、有风、有一点点自己的空间", [.45, .15, .55, .65, .45, .15, .4, .25]], ["社区成熟，菜市场、医院、公园都近", [.3, .2, .35, .35, .15, .4, .6, .45]], ["老房子或特色街区，住出自己的味道", [.3, .3, .25, .25, .15, .25, .25, .85]]
+      ]},
+      { title: "周末临时多出半天，你会？", note: "松弛感通常藏在这些小选择里。", options: [
+        ["临时约人吃饭，走到哪儿算哪儿", [.35, .5, .1, .1, .2, .35, .25, .65]], ["开车去郊外，看看没看过的风景", [.5, .2, .45, .7, .65, .2, .35, .35]], ["在街区里慢慢逛，买花、书和小物件", [.3, .3, .25, .25, .15, .35, .3, .75]], ["补觉、做饭、整理房间，把自己充回来", [.2, .1, .85, .2, .1, .25, .5, .3]]
+      ]},
+      { title: "你更相信哪一种生活便利？", note: "便利不是越多越好，是适合你的才好。", options: [
+        ["公共交通密、末班车晚，去哪都方便", [.2, .65, .2, .1, .05, .7, .15, .55]], ["步行友好，楼下就是日常生活", [.35, .3, .35, .2, .15, .45, .35, .55]], ["有车也不堵，周边小城和自然随时能去", [.45, .2, .3, .35, .4, .25, .4, .3]], ["服务细致，办事有秩序，心里不慌", [.2, .2, .3, .25, .1, .5, .35, .7]]
+      ]},
+      { title: "如果要重新认识一个地方，你会先看？", note: "第一眼心动，还是长期相处更重要？", options: [
+        ["它有没有让人变得更有活力", [.45, .65, .15, .1, .2, .7, .1, .6]], ["它能不能让我规律地生活", [.3, .15, .55, .4, .25, .4, .55, .4]], ["它有没有自己的文化和脾气", [.25, .3, .25, .2, .15, .4, .25, 1]], ["它是否允许我慢下来", [.35, .1, .8, .6, .4, .2, .6, .25]]
+      ]},
+      { title: "最后，如果真的搬家，你最想带走？", note: "这题没有正确答案，选一个最像你的。", options: [
+        ["一份向上的冲劲，继续把生活做大", [.35, .7, .15, .1, .1, 1, .1, .55]], ["一张舒服的餐桌，和愿意常来的人", [.4, .25, .25, .25, .35, .25, .45, .75]], ["一套规律的日常，慢慢过就很好", [.25, .1, .85, .45, .2, .3, .6, .35]], ["一颗随时出发的心，先住下再说", [.5, .4, .3, .35, .55, .3, .3, .65]]
+      ]}
+    ];
+
+    const cities = [
+      { city:"厦门", country:"中国 · 福建", emoji:"🌊", type:"海风慢生活", highlight:"海边、咖啡店和不急着证明自己的日常", forWho:"喜欢阳光、海鲜和松弛边界的人", downside:"热门区域节假日会有点拥挤，回南天也要有心理准备", vector:[.72,.34,.45,.45,.95,.38,.42,.66] },
+      { city:"昆明", country:"中国 · 云南", emoji:"🌼", type:"四季像春天", highlight:"天气温柔，城市尺度刚好，周末还能随时往山里走", forWho:"需要阳光和自然，又不想被大城市推着跑的人", downside:"产业机会的密度不算最高，生活半径会越住越松", vector:[.68,.28,.58,.75,.38,.32,.7,.48] },
+      { city:"成都", country:"中国 · 四川", emoji:"🐼", type:"烟火松弛派", highlight:"吃饭这件事很有仪式感，公园、茶馆和夜生活都不缺", forWho:"嘴馋、重视朋友和生活趣味的人", downside:"阴天和潮湿会来得很勤，热门商圈也容易堵", vector:[.6,.35,.48,.32,.18,.52,.55,.86] },
+      { city:"杭州", country:"中国 · 浙江", emoji:"🍃", type:"湖山效率派", highlight:"自然风景和产业机会贴得很近，通勤与周末可以两全", forWho:"既想向上发展，也不愿放弃审美和呼吸感的人", downside:"住房成本不算轻，梅雨季的湿润很有存在感", vector:[.55,.62,.32,.66,.38,.9,.25,.78] },
+      { city:"苏州", country:"中国 · 江苏", emoji:"🏮", type:"园林慢秩序", highlight:"古城、水巷、园林和成熟配套，安静但不闭塞", forWho:"喜欢细节、秩序和有一点传统气质的人", downside:"夜生活偏温和，想要强刺激可能会觉得少一口气", vector:[.45,.3,.63,.7,.18,.62,.55,.82] },
+      { city:"青岛", country:"中国 · 山东", emoji:"⛵", type:"海边清爽派", highlight:"海风、啤酒和有坡度的街道，生活带着一点轻盈的异国感", forWho:"喜欢凉爽空气、海边散步和直接人情的人", downside:"冬天风大，海边城市的湿冷要提前适应", vector:[.28,.34,.5,.48,.86,.42,.58,.65] },
+      { city:"珠海", country:"中国 · 广东", emoji:"🐚", type:"海岛邻里感", highlight:"海岸线很长，城市不压迫，日常有种慢慢展开的松弛", forWho:"想离大城市不远，又更重视生活留白的人", downside:"岗位选择和公共交通密度相对收敛，台风季要做好准备", vector:[.82,.24,.7,.62,.95,.34,.48,.42] },
+      { city:"深圳", country:"中国 · 广东", emoji:"⚡", type:"向上生长派", highlight:"效率、机会和多元文化都很集中，适合把想法变成行动", forWho:"目标感强、愿意用几年时间换成长的人", downside:"房租和节奏都比较有压力，真正的松弛需要自己争取", vector:[.86,.92,.22,.18,.4,1,.05,.9] },
+      { city:"广州", country:"中国 · 广东", emoji:"🥭", type:"人间烟火派", highlight:"食物丰盛、包容度高，生活有热气也有很实在的便利", forWho:"重视吃饭、朋友和城市包容度的人", downside:"湿热与台风季会考验耐受力，通勤高峰也不轻松", vector:[.82,.68,.25,.2,.35,.82,.22,.95] },
+      { city:"上海", country:"中国 · 上海", emoji:"🪩", type:"城市审美派", highlight:"展览、餐厅、工作机会和公共交通都给足选择", forWho:"喜欢效率、审美和保持一点都市感的人", downside:"居住成本高，快节奏会让人需要刻意安排休息", vector:[.45,.95,.22,.18,.18,1,.05,.98] },
+      { city:"南京", country:"中国 · 江苏", emoji:"🌳", type:"文气平衡派", highlight:"梧桐、城墙、大学城和江风，把烟火与文化放在一张桌上", forWho:"喜欢四季、书店和有历史层次的城市生活的人", downside:"夏天偏闷热，热门通勤方向需要多一点耐心", vector:[.4,.55,.42,.45,.2,.75,.48,.88] },
+      { city:"重庆", country:"中国 · 重庆", emoji:"🌶️", type:"立体烟火派", highlight:"坡道、江景和热辣食物，让每次出门都像一场小冒险", forWho:"精力旺盛、爱热闹、喜欢强烈城市性格的人", downside:"地形和湿热会让通勤有点费腿，生活节奏不算轻", vector:[.7,.68,.2,.42,.35,.7,.52,.96] },
+      { city:"大理", country:"中国 · 云南", emoji:"🏔️", type:"山海留白派", highlight:"苍山洱海和小城尺度，适合把生活重新调回自己的速度", forWho:"在意自然、自由和情绪空气的人", downside:"工作机会和医疗配套需要更现实地评估，旺季会变热闹", vector:[.62,.14,.88,.98,.72,.2,.55,.46] },
+      { city:"福州", country:"中国 · 福建", emoji:"🍵", type:"温润日常派", highlight:"温泉、榕树、海鲜与老街，生活柔软但不失便利", forWho:"喜欢绿意、清淡口味和有人情味的稳定派", downside:"湿热明显，城市话题和夜生活的密度相对温和", vector:[.8,.34,.6,.62,.55,.55,.62,.62] },
+      { city:"宁波", country:"中国 · 浙江", emoji:"⚓", type:"海港稳稳派", highlight:"收入机会、生活秩序和海边空气之间有一个舒服的平衡", forWho:"务实、重视稳定和长期生活质量的人", downside:"城市性格比较低调，想找强烈文艺氛围要多探索", vector:[.5,.6,.45,.42,.68,.78,.52,.55] },
+      { city:"无锡", country:"中国 · 江苏", emoji:"🪷", type:"湖畔小确幸", highlight:"太湖、园林和成熟配套，生活有舒适的缓冲区", forWho:"想要安稳、清爽和不太拥挤的城市生活的人", downside:"年轻人社交场景不算密集，机会更适合长期主义", vector:[.42,.36,.64,.72,.5,.58,.68,.62] },
+      { city:"海口", country:"中国 · 海南", emoji:"🌴", type:"热带轻养老", highlight:"阳光、海风和低密度日常，把周末感拉长成了每天", forWho:"喜欢热带、户外和把生活过得轻一点的人", downside:"夏季闷热，岗位类型和城市文化选择相对有限", vector:[.98,.18,.78,.56,.8,.3,.58,.4] },
+      { city:"三亚", country:"中国 · 海南", emoji:"🥥", type:"海岛度假感", highlight:"海边日常是真实存在的，运动、日落和户外都很近", forWho:"把阳光、海水和身体状态放在前面的人", downside:"旺季拥挤与生活成本上浮明显，长期工作选择需评估", vector:[1,.28,.68,.55,1,.22,.2,.38] },
+      { city:"贵阳", country:"中国 · 贵州", emoji:"🌫️", type:"山城清凉派", highlight:"夏天友好、生活成本相对克制，山地与城市都不远", forWho:"喜欢凉爽、慢热社交和真实烟火的人", downside:"阴雨天较多，城市坡度和产业选择需要适应", vector:[.38,.3,.57,.78,.24,.45,.78,.66] },
+      { city:"长沙", country:"中国 · 湖南", emoji:"🍢", type:"热辣快乐派", highlight:"夜宵、江风和年轻人的活力，情绪很容易被点亮", forWho:"外向、爱吃、需要城市能量补电的人", downside:"夏天热且湿，热门区域的生活噪音会比较有存在感", vector:[.72,.7,.2,.3,.28,.65,.62,.95] },
+      { city:"西安", country:"中国 · 陕西", emoji:"🏺", type:"古城新日常", highlight:"历史文化很厚，生活成本与城市活动之间有自己的节奏", forWho:"对文化、面食和城市故事感兴趣的人", downside:"冬季偏冷，空气与大风天可能需要一点适应", vector:[.2,.48,.4,.52,.1,.62,.72,.98] },
+      { city:"武汉", country:"中国 · 湖北", emoji:"🌉", type:"江城大口气", highlight:"江景、大学城和烟火美食，城市有很强的生活推动力", forWho:"想要机会、朋友和一座不矫情的城市的人", downside:"夏天热得直接，通勤半径一大就会感到辛苦", vector:[.62,.7,.3,.35,.52,.78,.62,.82] },
+      { city:"济南", country:"中国 · 山东", emoji:"💧", type:"泉城安稳派", highlight:"泉水、老城和实在的生活成本，日子过得有根有据", forWho:"喜欢安稳、人情和四季变化的人", downside:"冬天偏冷，城市的文艺与国际化选择没有那么密", vector:[.26,.42,.48,.52,.18,.55,.82,.62] },
+      { city:"天津", country:"中国 · 天津", emoji:"🎡", type:"松弛老派感", highlight:"海河、老建筑和不疾不徐的幽默，让生活有一点反差感", forWho:"喜欢城市故事、直爽人情和慢半拍的人", downside:"冬季风大，部分区域更新速度不一，选择要看具体片区", vector:[.24,.4,.54,.32,.46,.68,.72,.86] },
+      { city:"北京", country:"中国 · 北京", emoji:"🧱", type:"大城长期主义", highlight:"文化资源、职业机会和公共服务的上限都很高", forWho:"目标明确、愿意为成长和资源密度投入的人", downside:"通勤与住房压力都不小，冬天干冷也很有存在感", vector:[.18,.96,.2,.28,.08,1,.05,1] },
+      { city:"墨尔本", country:"澳大利亚", emoji:"☕", type:"文艺四季派", highlight:"咖啡、展览、公园和步行生活，城市有自己的松弛秩序", forWho:"喜欢独处、审美和有层次天气的人", downside:"天气变化快，离家远，生活成本需要有预算感", vector:[.4,.48,.55,.75,.15,.72,.18,.96] },
+      { city:"悉尼", country:"澳大利亚", emoji:"🌞", type:"海岸能量派", highlight:"海滩、阳光和多元社区，工作之外很容易找到户外生活", forWho:"爱运动、爱海、愿意为生活质量付费的人", downside:"房租与通勤成本偏高，城市距离感也比较真实", vector:[.86,.7,.32,.58,.98,.78,.05,.92] },
+      { city:"奥克兰", country:"新西兰", emoji:"⛵", type:"火山海湾派", highlight:"城市不大，海湾、山丘和户外路线很容易进入周末", forWho:"重视自然、家庭感和低压力生活的人", downside:"公共交通选择相对有限，工作机会集中度不如大城市", vector:[.58,.22,.7,.85,.88,.35,.32,.55] },
+      { city:"温哥华", country:"加拿大", emoji:"🌲", type:"山海绿意派", highlight:"城市一侧是海，一侧是山，日常出门就能遇见自然", forWho:"喜欢户外、安静和多元包容环境的人", downside:"阴雨季较长，住房成本和社交建立都需要耐心", vector:[.4,.32,.68,.94,.9,.62,.08,.95] },
+      { city:"多伦多", country:"加拿大", emoji:"🍁", type:"多元大都会", highlight:"文化多元、工作选择广，生活方式可以很自由地切换", forWho:"喜欢包容、机会和不同文化共处的人", downside:"冬天漫长，城市铺得很开，通勤距离要认真算", vector:[.15,.78,.35,.32,.18,.9,.08,1] },
+      { city:"哥本哈根", country:"丹麦", emoji:"🚲", type:"自行车松弛派", highlight:"骑车、海风、设计和公共空间，把日常做得很有分寸", forWho:"重视平衡、秩序、环保和生活质感的人", downside:"冬季日照少，税费与生活成本也会让预算更紧", vector:[.12,.32,.72,.62,.55,.6,.12,.98] },
+      { city:"阿姆斯特丹", country:"荷兰", emoji:"🚲", type:"水岸自由派", highlight:"步行骑行友好，水边、博物馆和国际化社交都很近", forWho:"追求自由表达、城市便利和文化密度的人", downside:"住房紧张，天气多变，骑车抗风雨是生活技能", vector:[.25,.55,.52,.4,.76,.85,.08,1] },
+      { city:"里斯本", country:"葡萄牙", emoji:"☀️", type:"阳光坡城", highlight:"旧街、海风和慢餐桌，城市的生活感比效率更抢镜", forWho:"喜欢阳光、老房子和把吃饭当生活的人", downside:"坡多、收入机会与住房供给需要细看，夏季游客较多", vector:[.8,.28,.62,.52,.8,.42,.35,.9] },
+      { city:"巴塞罗那", country:"西班牙", emoji:"🍊", type:"海边艺术派", highlight:"建筑、海滩、市场与夜晚都很有戏，生活天然带一点热烈", forWho:"外向、爱美、喜欢随时有事可做的人", downside:"旅游旺季人多，夜间噪音和住房成本要做好预期", vector:[.82,.58,.28,.32,.88,.58,.2,1] },
+      { city:"巴黎", country:"法国", emoji:"🥐", type:"浪漫日常派", highlight:"博物馆、街角面包和步行尺度，审美几乎渗进日常", forWho:"在意文化、细节和城市灵感的人", downside:"生活节奏与行政流程需要耐心，居住空间普遍不宽裕", vector:[.42,.7,.3,.18,.15,.9,.08,1] },
+      { city:"柏林", country:"德国", emoji:"🎧", type:"自由创意派", highlight:"空间感、音乐、展览和不同生活方式，允许你慢慢长成自己", forWho:"需要自由、包容和创作空间的人", downside:"冬天灰冷，办事节奏和城市维护感不一定时时在线", vector:[.22,.46,.58,.25,.1,.7,.32,1] },
+      { city:"维也纳", country:"奥地利", emoji:"🎼", type:"古典舒适派", highlight:"公共交通、音乐、咖啡馆与公园，把生活安排得很妥帖", forWho:"喜欢秩序、文化和稳定生活质感的人", downside:"夜生活比较克制，融入熟人圈需要时间", vector:[.2,.38,.72,.55,.08,.62,.38,.95] },
+      { city:"苏黎世", country:"瑞士", emoji:"🏞️", type:"清爽高效派", highlight:"湖泊、山景、秩序和工作机会，效率与自然同时在线", forWho:"自律、重视规则和长期生活质量的人", downside:"生活成本高，社交关系建立慢，冬天会比较冷", vector:[.12,.72,.65,.85,.72,.92,.02,.76] },
+      { city:"赫尔辛基", country:"芬兰", emoji:"🕯️", type:"安静设计派", highlight:"森林、海湾、桑拿和极简城市设计，给人很大的心理留白", forWho:"喜欢安静、自然和边界感的人", downside:"冬季日照少，社交与职业机会的密度偏低", vector:[.08,.2,.95,.9,.72,.4,.22,.72] },
+      { city:"斯德哥尔摩", country:"瑞典", emoji:"🫐", type:"群岛平衡派", highlight:"水岸、设计、公共服务和个人空间，边界感很舒服", forWho:"独立、理性又需要自然充电的人", downside:"冬季漫长，物价和税费需要接受，熟人关系建立偏慢", vector:[.1,.36,.82,.8,.88,.58,.1,.88] },
+      { city:"东京", country:"日本", emoji:"🗼", type:"高密度精致派", highlight:"便利、秩序、餐饮和文化选择几乎没有上限", forWho:"享受效率、细节与丰富城市体验的人", downside:"空间小、节奏快，夏季湿热也很考验耐受力", vector:[.52,.98,.18,.18,.12,1,.08,1] },
+      { city:"大阪", country:"日本", emoji:"🐙", type:"亲切烟火派", highlight:"好吃、好逛、人与人之间更直接，生活有温度又够方便", forWho:"看重美食、真实人情和城市便利的人", downside:"市中心热闹，夏天闷热，住房面积要有预期", vector:[.62,.76,.3,.2,.22,.82,.18,.96] },
+      { city:"首尔", country:"韩国", emoji:"💿", type:"潮流快节奏", highlight:"咖啡、设计、夜生活和工作机会，把年轻感推到很近", forWho:"喜欢新鲜感、效率和随时有得玩的城市青年", downside:"竞争感与通勤压力明显，冬季偏冷干", vector:[.25,.98,.18,.16,.08,.92,.12,1] },
+      { city:"台北", country:"中国台湾", emoji:"🧋", type:"柔软便利派", highlight:"便利店、夜市、山与河，日常的照顾感很具体", forWho:"喜欢小而全、包容和生活便利的人", downside:"雨季与湿气明显，房屋隔音和空间感要挑一挑", vector:[.7,.55,.48,.65,.38,.7,.38,.9] },
+      { city:"新加坡", country:"新加坡", emoji:"🌿", type:"热带秩序派", highlight:"公共服务、绿化、国际化工作和便利程度都很稳定", forWho:"重视效率、安全、多元与职业发展的实际派", downside:"常年炎热潮湿，住房与生活成本需要清晰规划", vector:[.96,.82,.32,.45,.7,.95,.05,1] },
+      { city:"吉隆坡", country:"马来西亚", emoji:"🌺", type:"热带性价比", highlight:"多元饮食、热带绿意和相对宽松的城市尺度", forWho:"看重生活成本、食物和国际化选择的人", downside:"公共交通与步行体验需要挑区域，雨季说来就来", vector:[.92,.42,.45,.55,.56,.65,.78,.95] },
+      { city:"曼谷", country:"泰国", emoji:"🛺", type:"热辣夜生活", highlight:"街头美食、商场、按摩和夜色，把日常过得很有能量", forWho:"喜欢热闹、刺激和低门槛享受生活的人", downside:"闷热、拥堵与空气质量需要适应，秩序感因区域而异", vector:[.96,.7,.2,.18,.5,.68,.68,.98] },
+      { city:"清迈", country:"泰国", emoji:"🌿", type:"慢城山林派", highlight:"咖啡、寺庙、山林和小城半径，适合把生活拉回自己", forWho:"远程工作、喜欢安静自然和慢社交的人", downside:"工作机会偏少，热季与烟霾季要提前了解", vector:[.9,.12,.88,.86,.36,.28,.82,.72] },
+      { city:"波特兰", country:"美国", emoji:"🌲", type:"森林创意派", highlight:"公园、咖啡、独立小店和户外，城市有一点不按套路来", forWho:"喜欢自然、创意和不太卷的生活方式的人", downside:"阴雨季较长，公共交通与就业选择需看具体行业", vector:[.42,.28,.7,.88,.2,.42,.22,.86] },
+      { city:"旧金山", country:"美国", emoji:"🌁", type:"海湾理想派", highlight:"海风、创意、科技与多元社区，适合追求可能性的人", forWho:"有专业目标、喜欢多元表达与海边空气的人", downside:"房租高、坡多、气候偏凉，生活成本很有存在感", vector:[.3,.82,.32,.5,.8,1,.01,1] }
+    ];
+
+    const naturalObjects = [
+      { name:"晨雾", emoji:"🌫️", type:"轻柔观察者", essence:"不抢镜，但会把世界的边缘变得温柔", forWho:"敏感、慢热、喜欢留白和安静观察的人", downside:"想太多时容易把自己藏得太深", vector:[.35,.12,.82,.25,.45,.2,.62,.38] },
+      { name:"晚霞", emoji:"🌇", type:"热烈浪漫派", essence:"把普通的一天也过出一点值得截图的颜色", forWho:"重感受、爱分享、需要生活有仪式感的人", downside:"情绪来得快，退潮时也需要一点陪伴", vector:[.72,.42,.28,.2,.48,.3,.34,.84] },
+      { name:"雨滴", emoji:"💧", type:"清醒共情派", essence:"细小、具体，落在哪里都能留下自己的声音", forWho:"共情力强、重视细节和真实感的人", downside:"环境变化会影响心情，边界感要自己守住", vector:[.45,.2,.58,.2,.3,.2,.5,.6] },
+      { name:"露珠", emoji:"🫧", type:"清透细节派", essence:"不喧哗，却能把一束光认真接住", forWho:"审美细腻、愿意慢慢把生活过漂亮的人", downside:"对粗糙和失序的容忍度不算高", vector:[.35,.16,.62,.38,.25,.18,.62,.76] },
+      { name:"月光", emoji:"🌙", type:"安静陪伴型", essence:"不是最亮的那一个，却让人觉得身边有光", forWho:"独立、温柔、需要夜晚和个人空间的人", downside:"不太擅长主动开口，容易把需求留给自己", vector:[.2,.1,.92,.35,.35,.18,.55,.6] },
+      { name:"北极星", emoji:"⭐", type:"稳定导航派", essence:"方向感很稳，愿意在别人迷路时给一点参照", forWho:"目标清晰、靠谱、喜欢长期主义的人", downside:"对自己要求太高，偶尔忘了休息", vector:[.12,.56,.55,.3,.15,.88,.4,.55] },
+      { name:"云朵", emoji:"☁️", type:"自由漂浮派", essence:"心里有风，愿意把答案留给未来", forWho:"不喜欢被定义、好奇、适应变化的人", downside:"计划容易被新鲜感带走，落地要靠提醒", vector:[.52,.28,.68,.42,.48,.25,.54,.62] },
+      { name:"溪流", emoji:"🏞️", type:"柔韧向前派", essence:"不和石头硬碰硬，但总能找到继续往前的路", forWho:"温和、灵活、愿意把日子过顺的人", downside:"有时太会迁就，忘了问自己想去哪儿", vector:[.52,.26,.58,.72,.5,.28,.7,.44] },
+      { name:"湖泊", emoji:"🪞", type:"深静包容派", essence:"表面安静，心里装得下很多层风景", forWho:"内核稳定、喜欢安静关系和深度交流的人", downside:"热身时间长，社交圈不会一下子变大", vector:[.45,.14,.9,.78,.7,.22,.54,.56] },
+      { name:"海浪", emoji:"🌊", type:"情绪能量派", essence:"有起有落，但每一次靠岸都带着新的力气", forWho:"有感染力、喜欢变化和大开大合体验的人", downside:"节奏起伏明显，不适合太久的无聊日常", vector:[.78,.7,.2,.24,.98,.38,.3,.8] },
+      { name:"潮汐", emoji:"🌒", type:"周期感知派", essence:"懂得什么时候靠近，也懂得什么时候退回自己的岸", forWho:"有节奏感、重视边界又有情绪深度的人", downside:"状态有周期，外界不理解时会觉得委屈", vector:[.62,.38,.6,.32,.92,.25,.44,.72] },
+      { name:"礁石", emoji:"🪨", type:"可靠定心派", essence:"风浪来时不急着证明，安安静静把自己站稳", forWho:"务实、耐受、愿意给身边人安全感的人", downside:"看起来很坚硬，其实不太会表达疲惫", vector:[.2,.34,.58,.72,.72,.28,.86,.3] },
+      { name:"沙丘", emoji:"🏜️", type:"松弛边界派", essence:"风来了就换一个形状，依然保留自己的辽阔", forWho:"喜欢自由、空间和不被催促的生活的人", downside:"不喜欢被安排，长期稳定的关系需要练习", vector:[.82,.18,.74,.76,.38,.18,.7,.3] },
+      { name:"雪松", emoji:"🌲", type:"沉静守护派", essence:"不急着长成谁的样子，四季都保持自己的方向", forWho:"安静、自律、重视稳定与品质的人", downside:"社交表达偏克制，别人不一定马上读懂你", vector:[.16,.3,.78,.9,.2,.45,.72,.42] },
+      { name:"银杏叶", emoji:"🍂", type:"温柔有故事", essence:"见过四季，所以懂得把变化也当成一种美", forWho:"有怀旧感、重视细节和时间质感的人", downside:"容易留恋旧事，做决定时会多想几圈", vector:[.28,.24,.62,.64,.12,.32,.7,.82] },
+      { name:"竹子", emoji:"🎋", type:"清醒有韧性", essence:"向上生长，也愿意把空间让给风穿过去", forWho:"理性、克制、遇事能调整姿势的人", downside:"不喜欢麻烦别人，偶尔会把压力一个人扛完", vector:[.3,.45,.66,.82,.2,.62,.78,.6] },
+      { name:"向日葵", emoji:"🌻", type:"明亮补能派", essence:"有光就往前，愿意把好心情传给身边的人", forWho:"外向、乐观、需要热闹和正反馈的人", downside:"怕冷场，也容易为了照顾别人消耗自己", vector:[.95,.58,.18,.2,.35,.5,.5,.76] },
+      { name:"雏菊", emoji:"🌼", type:"轻盈真诚派", essence:"喜欢小而确定的快乐，认真过好每一个普通日子", forWho:"真诚、好相处、重视轻松关系的人", downside:"不太喜欢冲突，偶尔会把委屈说得太晚", vector:[.62,.3,.48,.45,.25,.26,.72,.64] },
+      { name:"荷叶", emoji:"🪷", type:"清醒留白派", essence:"身处热闹，也保留一小块不被打扰的清凉", forWho:"内心有边界、喜欢自然和独处的人", downside:"对嘈杂与过度社交比较敏感", vector:[.58,.15,.88,.65,.5,.2,.66,.48] },
+      { name:"芦苇", emoji:"🌾", type:"柔软有骨气", essence:"会随风，但不会因为风向改变自己的根", forWho:"温和、坚韧、重视情绪自由的人", downside:"太会适应环境，容易把真正想法藏起来", vector:[.5,.2,.7,.7,.38,.22,.7,.42] },
+      { name:"苔藓", emoji:"🌿", type:"安静生命力", essence:"不追赶聚光灯，也能把角落过成一片绿色", forWho:"低调、耐心、享受小范围深度生活的人", downside:"需要很长时间才会对陌生环境完全放松", vector:[.4,.1,.95,.9,.32,.12,.8,.3] },
+      { name:"松果", emoji:"🌰", type:"朴实收藏家", essence:"把重要的东西一颗颗收好，慢慢准备下一季", forWho:"踏实、会过日子、重视储备和安全感的人", downside:"进入新阶段前会准备很久，偶尔错过即时机会", vector:[.22,.22,.7,.65,.18,.35,.92,.4] },
+      { name:"珊瑚", emoji:"🪸", type:"热烈共生派", essence:"在关系和环境里一起生长，越有连接越有颜色", forWho:"重视社群、包容、多元和共同创造的人", downside:"太在意关系温度，环境不好时会消耗得很快", vector:[.7,.4,.3,.38,.88,.38,.28,.9] },
+      { name:"贝壳", emoji:"🐚", type:"温柔有边界", essence:"把柔软藏在外壳里，只对值得的人打开", forWho:"慢热、敏感、需要安全感又有审美的人", downside:"防御心一上来，别人很难知道你在想什么", vector:[.55,.18,.78,.42,.8,.18,.62,.66] },
+      { name:"火山", emoji:"🌋", type:"蓄力爆发派", essence:"平时安静积攒，真正想做的事会带着巨大能量", forWho:"有目标、敢冒险、喜欢强烈体验的人", downside:"情绪和工作都容易用力过猛，需要学会降温", vector:[.75,.9,.16,.15,.35,.92,.18,.72] },
+      { name:"冰川", emoji:"🧊", type:"冷静长期派", essence:"速度不快，但每一步都经过时间和判断", forWho:"理性、自持、愿意为长期目标耐心投入的人", downside:"不容易被新鲜事打动，表达热情需要时间", vector:[.04,.26,.9,.72,.52,.8,.28,.4] },
+      { name:"山泉", emoji:"⛲", type:"清澈治愈派", essence:"不制造噪音，但会让靠近的人慢慢松一口气", forWho:"温柔、可靠、喜欢自然与稳定关系的人", downside:"不喜欢复杂拉扯，遇到混乱会想先退开", vector:[.5,.18,.82,.88,.42,.28,.78,.5] },
+      { name:"山谷", emoji:"⛰️", type:"深度容纳派", essence:"愿意把声音放大，也愿意让回声慢慢落下", forWho:"有深度、能独处、重视真实对话的人", downside:"情绪容易在心里回响，需要及时说出来", vector:[.35,.1,.88,.92,.4,.2,.65,.58] },
+      { name:"森林", emoji:"🌳", type:"丰盛共处派", essence:"喜欢很多种声音同时存在，彼此留出自然的距离", forWho:"包容、好奇、重视多元生活方式的人", downside:"选择太多时会分心，独处时间也不可少", vector:[.5,.26,.55,.98,.4,.4,.62,.86] },
+      { name:"樱花", emoji:"🌸", type:"轻盈当下派", essence:"知道花期有限，所以更愿意认真对待此刻", forWho:"浪漫、行动靠感觉、喜欢季节仪式的人", downside:"热情来得快，长期重复的事容易觉得无聊", vector:[.62,.46,.35,.48,.22,.35,.4,.92] },
+      { name:"桂花", emoji:"🌼", type:"低调有回甘", essence:"不声张，但路过时总能让人记住一点香气", forWho:"内敛、细腻、重视熟悉感和生活小确幸的人", downside:"不太会主动争取，机会有时会被更响亮的人拿走", vector:[.5,.2,.68,.48,.2,.25,.76,.72] },
+      { name:"枫叶", emoji:"🍁", type:"成熟有颜色", essence:"接受季节变化，也不忘给自己留一抹鲜明", forWho:"审美成熟、会调整、喜欢秋天与层次感的人", downside:"容易对过去产生滤镜，偶尔太念旧", vector:[.26,.32,.6,.62,.18,.36,.65,.88] },
+      { name:"蒲公英", emoji:"🌬️", type:"自由迁徙派", essence:"不把一次落地当成终点，风会带你认识新的地方", forWho:"适应力强、喜欢远方、不怕重新开始的人", downside:"安定下来需要一点时间，计划感不能太松", vector:[.7,.4,.7,.62,.45,.24,.55,.78] },
+      { name:"蕨类", emoji:"🌿", type:"耐心复古派", essence:"喜欢阴影里的绿色，安静却有自己的审美秩序", forWho:"慢热、低调、喜欢书店与小空间的人", downside:"过度安静时容易与外界失联", vector:[.42,.14,.88,.86,.22,.22,.72,.62] },
+      { name:"芒草", emoji:"🌾", type:"风里浪漫派", essence:"不怕季节把颜色吹淡，依然保留柔软的姿势", forWho:"有诗意、重视自由、不想被生活磨平的人", downside:"对现实琐事耐心有限，预算和规划要有人提醒", vector:[.55,.18,.78,.8,.35,.16,.55,.72] },
+      { name:"橄榄枝", emoji:"🫒", type:"温和协调派", essence:"比起赢，更在意把关系和日子过得长久", forWho:"包容、愿意沟通、擅长让不同的人共处的人", downside:"太常做中间人，自己的选择反而容易放到最后", vector:[.62,.22,.6,.52,.4,.28,.72,.86] },
+      { name:"蓝花楹", emoji:"💜", type:"浪漫城市派", essence:"把一条普通的街道，变成愿意绕路经过的风景", forWho:"在意氛围、审美和城市记忆的人", downside:"容易为一时心动买单，长期成本需要再算一遍", vector:[.65,.34,.46,.5,.3,.34,.4,.96] },
+      { name:"薰衣草", emoji:"💜", type:"舒缓疗愈派", essence:"擅长把紧绷的日常调成柔和的紫色", forWho:"重视睡眠、情绪和生活质感的人", downside:"对高压环境适应慢，需要可控的节奏", vector:[.58,.12,.9,.55,.35,.2,.6,.72] },
+      { name:"野莓", emoji:"🫐", type:"酸甜冒险派", essence:"小小一颗，但每次入口都有一点意外和活力", forWho:"好奇、会玩、喜欢新鲜食物与新路线的人", downside:"对重复日常耐心不足，容易同时开太多坑", vector:[.7,.62,.3,.38,.5,.3,.48,.84] },
+      { name:"蘑菇", emoji:"🍄", type:"低调适应派", essence:"哪里有合适的空气，哪里就能悄悄长出自己的生态", forWho:"聪明、灵活、不爱高调竞争的人", downside:"过度观察时会错过直接表达的机会", vector:[.52,.26,.75,.72,.3,.3,.72,.58] },
+      { name:"雨燕", emoji:"🐦", type:"轻快行动派", essence:"不把时间耗在原地，喜欢用移动换来新鲜空气", forWho:"效率高、爱旅行、需要城市变化感的人", downside:"停下来会不安，长期休息也要练习", vector:[.62,.88,.24,.3,.55,.62,.34,.8] },
+      { name:"海鸥", emoji:"🕊️", type:"海边社交派", essence:"一边看风向，一边把日子过得开阔又热闹", forWho:"外向、爱海、喜欢朋友和临时计划的人", downside:"太容易被远方吸引，稳定安排会显得有点无聊", vector:[.78,.62,.22,.25,.98,.36,.36,.78] },
+      { name:"萤火虫", emoji:"✨", type:"小范围发光派", essence:"不需要整座城市看见，只在重要的人身边认真发光", forWho:"内向但有创造力、重视亲密关系的人", downside:"陌生场合容易隐藏，进入状态需要安全感", vector:[.45,.2,.82,.42,.32,.26,.65,.78] },
+      { name:"鲸", emoji:"🐋", type:"深海大心脏", essence:"拥有很大的内心世界，也愿意把温柔留给远方", forWho:"情绪深、视野大、重视自由和长期关系的人", downside:"需要很多独处空间，不喜欢被频繁打扰", vector:[.48,.16,.82,.6,.98,.35,.42,.72] },
+      { name:"蝴蝶", emoji:"🦋", type:"变化美学派", essence:"每一段经历都能变成新的颜色和轻盈", forWho:"爱尝试、重视美感、适应新环境快的人", downside:"新鲜感退去后容易想换赛道", vector:[.72,.52,.36,.4,.35,.42,.4,.94] },
+      { name:"白鹭", emoji:"🪽", type:"清醒距离感", essence:"保持优雅的距离，也愿意在合适的时候靠近水面", forWho:"理性、独立、喜欢安静秩序和清爽空间的人", downside:"不爱解释，容易被误会成冷淡", vector:[.32,.25,.85,.72,.54,.38,.72,.7] },
+      { name:"狐狸", emoji:"🦊", type:"聪明生活派", essence:"懂得观察，也懂得用一点机灵给生活找出口", forWho:"有判断力、幽默、重视选择自由的人", downside:"防备心强，不容易彻底交出信任", vector:[.55,.55,.45,.4,.28,.58,.68,.82] },
+      { name:"鹿角蕨", emoji:"🌿", type:"独特生长派", essence:"不按标准模板生活，但会找到自己的稳固支点", forWho:"审美独立、温柔有主见、喜欢非标准答案的人", downside:"独特也意味着需要自己承担试错成本", vector:[.5,.22,.72,.78,.28,.4,.52,.9] },
+      { name:"海棠", emoji:"🌺", type:"温柔有锋芒", essence:"看起来柔软，真正遇到风时却比想象中更有自己的坚持", forWho:"细腻、有审美、心里有主意又不爱喧哗的人", downside:"容易把体面放在前面，真实需要多说一点", vector:[.58,.26,.58,.55,.4,.28,.65,.88] },
+      { name:"琥珀", emoji:"🟠", type:"时间收藏派", essence:"愿意把经历慢慢沉淀，最后变成自己独有的光泽", forWho:"有故事、重视记忆与质感、喜欢长期积累的人", downside:"不太喜欢推倒重来，面对变化需要预热", vector:[.32,.18,.76,.5,.18,.42,.78,.82] }
+    ];
+
+    const state = { index: 0, answers: [], selected: null };
+    const intro = document.getElementById('intro-screen');
+    const quiz = document.getElementById('quiz-screen');
+    const result = document.getElementById('result-screen');
+    const questionView = document.getElementById('question-view');
+    const resultView = document.getElementById('result-view');
+    const toast = document.getElementById('toast');
+
+    function showScreen(screen) { [intro, quiz, result].forEach(s => s.classList.toggle('hidden', s !== screen)); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    function renderQuestion() {
+      const q = questions[state.index];
+      const percent = Math.round(((state.index + 1) / questions.length) * 100);
+      document.getElementById('progress-label').textContent = `第 ${state.index + 1} / ${questions.length} 题`;
+      document.getElementById('progress-percent').textContent = `${percent}%`;
+      document.getElementById('progress-fill').style.width = `${percent}%`;
+      questionView.className = 'fade-in';
+      questionView.innerHTML = `<div class="question-kicker">QUESTION ${String(state.index + 1).padStart(2, '0')}</div><h2 class="question-title">${q.title}</h2><p class="question-note">${q.note}</p><div class="options" role="radiogroup" aria-label="${q.title}">${q.options.map((option, i) => `<button class="option ${state.selected === i ? 'selected' : ''}" data-option="${i}" type="button" role="radio" aria-checked="${state.selected === i}"><span class="option-mark">✓</span><span class="option-text">${option[0]}</span></button>`).join('')}</div><div class="quiz-footer"><button class="back-btn" id="back-btn" type="button" ${state.index === 0 ? 'style="visibility:hidden"' : ''}>← 上一题</button><button class="primary-btn" id="next-btn" type="button" ${state.selected === null ? 'disabled' : ''}>${state.index === questions.length - 1 ? '查看我的自然物 →' : '下一题 →'}</button></div>`;
+      questionView.querySelectorAll('.option').forEach(btn => btn.addEventListener('click', () => { state.selected = Number(btn.dataset.option); renderQuestion(); }));
+      document.getElementById('back-btn').addEventListener('click', () => { if (state.index > 0) { state.index--; state.selected = state.answers[state.index] ?? null; renderQuestion(); } });
+      document.getElementById('next-btn').addEventListener('click', () => { if (state.selected === null) return; state.answers[state.index] = state.selected; if (state.index === questions.length - 1) renderResult(); else { state.index++; state.selected = state.answers[state.index] ?? null; renderQuestion(); } });
+    }
+    function findCity() {
+      const totals = Array(8).fill(0);
+      state.answers.forEach((answer, qIndex) => questions[qIndex].options[answer][1].forEach((v, i) => totals[i] += v));
+      const average = totals.map(v => v / questions.length);
+      const ranked = cities.map(city => { const distance = city.vector.reduce((sum, v, i) => sum + Math.pow(average[i] - v, 2), 0); return { city, score: Math.max(82, Math.min(98, Math.round(98 - distance * 10))) }; }).sort((a, b) => b.score - a.score);
+      return ranked[0];
+    }
+    function findNatural() {
+      const totals = Array(8).fill(0);
+      state.answers.forEach((answer, qIndex) => questions[qIndex].options[answer][1].forEach((v, i) => totals[i] += v));
+      const average = totals.map(v => v / questions.length);
+      const ranked = naturalObjects.map(nature => { const distance = nature.vector.reduce((sum, v, i) => sum + Math.pow(average[i] - v, 2), 0); return { nature, score: Math.max(82, Math.min(98, Math.round(98 - distance * 10))) }; }).sort((a, b) => b.score - a.score);
+      return ranked[0];
+    }
+    function renderResult() {
+      const natureMatch = findNatural();
+      const n = natureMatch.nature;
+      const paragraph = `你的本命自然物是${n.name}。${n.essence}，这很像你在日常里的底色。你适合${n.forWho}。当然，${n.downside}——自然物人格不是给你贴标签，而是把你已经拥有的那部分光，轻轻说出来。`;
+      resultView.className = 'fade-in';
+      resultView.innerHTML = `<article class="result-card" id="share-card"><div class="result-top"><div class="city-stamp">${n.emoji}</div><div><div class="result-label">你的本命自然物是</div><h1 class="result-city">${n.name}</h1><div class="result-country">${n.type}</div><span class="score-chip">自然物匹配度 ${natureMatch.score}%</span></div></div><div class="nature-banner"><div class="nature-emoji">${n.emoji}</div><div><div class="nature-label">你的自然物气质</div><div class="nature-name">${n.name}</div><div class="nature-type">${n.type}｜${n.essence}</div></div></div><p class="quote">“${n.essence}，你也可以按照自己的节奏发光。”</p><div class="result-grid"><div class="mini-card"><div class="mini-label">你的亮点</div><div class="mini-value">${n.essence}</div></div><div class="mini-card"><div class="mini-label">适合你</div><div class="mini-value">${n.forWho}</div></div><div class="mini-card"><div class="mini-label">小缺点</div><div class="mini-value">${n.downside}</div></div></div><p class="result-copy">${paragraph}</p><p class="result-note">这是一份基于生活偏好的轻测试，不替代心理诊断。它只是帮你换一个自然的角度，看见自己的生活气质。</p></article><div class="result-actions"><button class="primary-btn" id="copy-btn" type="button">复制结果文案</button><button class="ghost-btn" id="restart-btn" type="button">重新测试</button></div>`;
+      document.getElementById('copy-btn').addEventListener('click', () => copyResult(n, natureMatch.score, paragraph));
+      document.getElementById('restart-btn').addEventListener('click', restart);
+      showScreen(result);
+    }
+    async function copyResult(nature, score, paragraph) { const text = `我的本命自然物是${nature.name}｜${nature.type}\n自然物匹配度 ${score}%\n\n${paragraph}\n\n#本命自然物 #自然物人格 #生活方式测试`; try { await navigator.clipboard.writeText(text); showToast('结果文案已复制，去小红书发一篇吧 ✨'); } catch { showToast('复制失败，可以长按截图保存结果卡'); } }
+    function showToast(message) { toast.textContent = message; toast.classList.add('show'); clearTimeout(showToast.timer); showToast.timer = setTimeout(() => toast.classList.remove('show'), 2500); }
+    function restart() { state.index = 0; state.answers = []; state.selected = null; showScreen(intro); }
+    document.getElementById('start-btn').addEventListener('click', () => { state.index = 0; state.answers = []; state.selected = null; showScreen(quiz); renderQuestion(); });
+  </script>
+</body>
+</html>
+
